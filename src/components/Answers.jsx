@@ -4,13 +4,13 @@ import styled from "styled-components";
 export default function Answers({ onAnswer }) {
   return (
     <ButtonContainer>
-      <ActionButton color="#FF3030" onClick={() => onAnswer("nao")}>
+      <ActionButton color="#FF3030" onClick={() => onAnswer("Não Lembrei")}>
         Não Lembrei
       </ActionButton>
-      <ActionButton color="#FF922E" onClick={() => onAnswer("quase")}>
+      <ActionButton color="#FF922E" onClick={() => onAnswer("Quase não Lembrei")}>
         Quase não Lembrei
       </ActionButton>
-      <ActionButton color="#2FBE34" onClick={() => onAnswer("zap")}>
+      <ActionButton color="#2FBE34" onClick={() => onAnswer("Zap!")}>
         Zap!
       </ActionButton>
     </ButtonContainer>
@@ -36,6 +36,7 @@ const ActionButton = styled.button`
   flex-grow: 1;
   margin: 0 5px;
   transition: transform 0.2s;
+  z-index: 2;
 
   &:hover {
     transform: scale(1.05);

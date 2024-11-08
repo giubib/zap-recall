@@ -12,44 +12,59 @@ export default function SingleQuestion({ question, answer, index, onAnswer }) {
   const handleAnswer = (type) => {
     setAnswerType(type);
     setState("answered");
-    onAnswer(); // Increment the counter in App
+    if (onAnswer) onAnswer(type);
+  };
+
+  const renderIcon = () => {
+    switch (answerType) {
+      case "Não Lembrei":
+        return <Icon src="src/assets/icone_erro.png" alt="Error Icon" />;
+      case "Quase não Lembrei":
+        return <Icon src="src/assets/icone_quase.png" alt="Almost Icon" />;
+      case "Zap!":
+        return <Icon src="src/assets/icone_certo.png" alt="Correct Icon" />;
+      default:
+        return null;
+    }
   };
 
   return (
     <QuestionCard $state={state} $answerType={answerType}>
       {state === "initial" && (
         <>
-          <p>Pergunta {index + 1}</p>
-          <button onClick={handlePlayClick}>
+          <QuestionText $answered={answerType}>Pergunta {index + 1}</QuestionText>
+          <QuestionButton onClick={handlePlayClick}>
             <img src="src/assets/seta_play.png" alt="Play Icon" />
-          </button>
+          </QuestionButton>
         </>
       )}
+
       {state === "question" && (
         <>
           <QuestionText>{question}</QuestionText>
-          <button onClick={handleFlipClick}>
+          <QuestionButton onClick={handleFlipClick}>
             <img src="src/assets/seta_virar.png" alt="Flip Icon" />
-          </button>
+          </QuestionButton>
         </>
       )}
+
       {state === "answer" && (
         <>
           <QuestionText>{answer}</QuestionText>
           <Answers onAnswer={handleAnswer} />
         </>
       )}
+
       {state === "answered" && (
-        <AnsweredText $answerType={answerType}>
-          Pergunta {index + 1}
-          {answerType === "zap" && <img src="src/assets/icone_certo.png" alt="Zap Icon" />}
-          {answerType === "quase" && <img src="src/assets/icone_quase.png" alt="Quase Icon" />}
-          {answerType === "nao" && <img src="src/assets/icone_erro.png" alt="Erro Icon" />}
-        </AnsweredText>
+        <>
+          <QuestionText $answered={answerType}>Pergunta {index + 1}</QuestionText>
+          {renderIcon()}
+        </>
       )}
     </QuestionCard>
   );
 }
+
 const QuestionCard = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,53 +72,44 @@ const QuestionCard = styled.div`
   justify-content: space-between;
   width: 300px;
   padding: 20px;
-  background-color: ${(props) =>
-    props.$answerType === "error"
-      ? "#FF3030"
-      : props.$answerType === "partial"
-      ? "#FF922E"
-      : props.$answerType === "correct"
-      ? "#2FBE34"
-      : "#FFFFFF"};
+  position: relative;
+  background-color: ${(props) => (props.$state === "initial" ? "#FFFFFF" : "#FFFBDB")};
   border-radius: 5px;
   margin-bottom: 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   font-family: "Recursive", sans-serif;
   color: #333333;
-  position: relative;
+`;
 
-  button {
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-  }
-
-  img {
-    width: 20px;
-    height: 20px;
-  }
+const QuestionButton = styled.button`
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1;
 `;
 
 const QuestionText = styled.p`
   font-size: 16px;
   color: #333333;
   margin: 0;
+  text-decoration: ${(props) => (props.$answered ? "line-through" : "none")};
+  color: ${(props) =>
+    props.$answered === "Não Lembrei"
+      ? "#FF3030"
+      : props.$answered === "Quase não Lembrei"
+      ? "#FF922E"
+      : props.$answered === "Zap!"
+      ? "#2FBE34"
+      : "#333333"};
 `;
 
-const AnsweredText = styled.p`
-  color: ${(props) => {
-    switch (props.$answerType) {
-      case "zap":
-        return "#2FBE34";
-      case "quase":
-        return "#FF922E";
-      case "nao":
-        return "#FF3030";
-      default:
-        return "#333333";
-    }
-  }};
-  text-decoration: ${(props) => (props.$answerType ? "line-through" : "none")};
+const Icon = styled.img`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  z-index: 2;
 `;
