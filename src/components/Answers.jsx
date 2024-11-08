@@ -1,12 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function Answers() {
+export default function Answers({ onAnswer }) {
   return (
     <ButtonContainer>
-      <ActionButton color="#FF3030">Não Lembrei</ActionButton>
-      <ActionButton color="#FF922E">Quase não Lembrei</ActionButton>
-      <ActionButton color="#2FBE34">Zap!</ActionButton>
+      <ActionButton color="#FF3030" onClick={() => onAnswer("nao")}>
+        Não Lembrei
+      </ActionButton>
+      <ActionButton color="#FF922E" onClick={() => onAnswer("quase")}>
+        Quase não Lembrei
+      </ActionButton>
+      <ActionButton color="#2FBE34" onClick={() => onAnswer("zap")}>
+        Zap!
+      </ActionButton>
     </ButtonContainer>
   );
 }

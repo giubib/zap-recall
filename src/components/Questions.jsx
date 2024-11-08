@@ -1,18 +1,18 @@
 import React from "react";
 import SingleQuestion from "./SingleQuestion";
 
-const cards = [
-  { question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
-  { question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
-  { question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
-  { question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
-];
+export default function Questions({ onAnswer }) {
+  const questions = [
+    { question: "What is React?", answer: "A JavaScript library for building user interfaces" },
+    { question: "What is a component?", answer: "An independent piece of UI in a React application" },
+    { question: "What is JSX?", answer: "A syntax extension for JavaScript that looks like HTML" },
+    { question: "What is a hook?", answer: "A special function that lets you use React features" },
+  ];
 
-export default function Questions() {
   return (
     <div>
-      {cards.map((card, index) => (
-        <SingleQuestion key={index} question={card.question} answer={card.answer} index={index} />
+      {questions.map((q, index) => (
+        <SingleQuestion key={index} question={q.question} answer={q.answer} index={index} onAnswer={onAnswer} />
       ))}
     </div>
   );

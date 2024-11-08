@@ -1,6 +1,11 @@
 import styled from "styled-components";
-export default function Bottom() {
-  return <Footer>0/4 CONCLUÍDOS</Footer>;
+
+export default function Bottom({ completedCount, total }) {
+  return (
+    <Footer>
+      {completedCount}/{total} CONCLUÍDOS
+    </Footer>
+  );
 }
 
 const Footer = styled.div`

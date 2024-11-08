@@ -1,14 +1,19 @@
-import Bottom from "./components/Bottom";
-import Questions from "./components/Questions";
-import Top from "./components/Top";
+import React, { useState } from "react";
 import styled from "styled-components";
+import Top from "./components/Top";
+import Questions from "./components/Questions";
+import Bottom from "./components/Bottom";
 
 export default function App() {
+  const [completedCount, setCompletedCount] = useState(0);
+
+  const incrementCount = () => setCompletedCount((prev) => prev + 1);
+
   return (
     <AppContainer>
       <Top />
-      <Questions />
-      <Bottom />
+      <Questions onAnswer={incrementCount} />
+      <Bottom completedCount={completedCount} total={4} />
     </AppContainer>
   );
 }
